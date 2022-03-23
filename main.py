@@ -5,7 +5,8 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
 from aiogram import Bot, types
 
-
+print('Привет')
+logging.info('Привет 2')
 
 
 TOKEN = os.getenv(BOT_TOKEN)
