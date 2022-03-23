@@ -6,7 +6,7 @@ from aiogram.utils.executor import start_webhook
 from aiogram import Bot, types
 
 
-HEROKU_APP_NAME = 'yarche-help'
+
 
 TOKEN = os.getenv(BOT_TOKEN)
 bot = Bot(token=TOKEN)
