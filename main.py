@@ -10,7 +10,7 @@ BOT_TOKEN = '5182616067:AAEPUM-mkz1Ier0a4J7DyykHsSfeb1bTIMU'
 HEROKU_APP_NAME = 'yarche-help'
 
 TOKEN = os.getenv(BOT_TOKEN)
-bot = Bot(token=TOKEN)
+bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
 
 HEROKU_APP_NAME = os.getenv(HEROKU_APP_NAME)
