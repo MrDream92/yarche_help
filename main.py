@@ -9,7 +9,6 @@ from create_bot import *
 from handlers import client, admin,other
 
 
-
 """TOKEN = os.getenv('BOT_TOKEN')
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)"""
@@ -39,7 +38,7 @@ async def echo(message: types.Message):
     await message.answer(message.text)
 
 
-#client.register_handlers_client(Dispatcher)
+client.register_handlers_client(dp)
 
 
 if __name__ == '__main__':
