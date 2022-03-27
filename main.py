@@ -5,6 +5,8 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
 from aiogram import Bot, types
 
+from handlers import client, admin,other
+
 
 
 TOKEN = os.getenv('BOT_TOKEN')
@@ -35,6 +37,9 @@ async def on_shutdown(dispatcher):
 @dp.message_handler()
 async def echo(message: types.Message):
     await message.answer(message.text)
+
+
+client.register_handlers_client(Dispatcher)
 
 
 if __name__ == '__main__':
