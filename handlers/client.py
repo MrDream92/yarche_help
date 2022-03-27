@@ -15,10 +15,10 @@ class FSMAdmin(StatesGroup):#Клас необходим для перехода
 
 
 async def command_registration_user(message : types.Message):
-    await message.answer("Ссылочки", reply_markup=button_case_registration)
+    await message.answer("Нужно определить магазин...", reply_markup=button_case_registration)
     print('777')
 
 
 
 def register_handlers_client(dp:Dispatcher):
-    dp.register_message_handler(command_registration_user, commands=['start'])
+    dp.register_message_handler(command_registration_user, commands=['egistration'])
