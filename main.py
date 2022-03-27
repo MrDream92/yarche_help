@@ -39,7 +39,7 @@ async def echo(message: types.Message):
     await message.answer(message.text)
 
 
-client.register_handlers_client(Dispatcher)
+#client.register_handlers_client(Dispatcher)
 
 
 if __name__ == '__main__':

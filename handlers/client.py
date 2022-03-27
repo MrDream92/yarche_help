@@ -17,6 +17,8 @@ class FSMAdmin(StatesGroup):#Клас необходим для перехода
 async def command_registration_user(message : types.Message):
     await message.answer("Нужно определить магазин...", reply_markup=button_case_registration)
     print('777')
+    await bot.send_message(message.from_user.id, "Слушаю Вас, Хозяин..", reply_markup=admin_kb.button_case_admin)
+    await message.delete()
 
 
 
