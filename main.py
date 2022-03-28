@@ -25,6 +25,9 @@ WEBAPP_HOST = '0.0.0.0'
 WEBAPP_PORT = os.getenv('PORT', default=8000)
 
 
+client.register_handlers_client(dp)
+
+
 async def on_startup(dispatcher):
     await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
 
@@ -36,10 +39,6 @@ async def on_shutdown(dispatcher):
 @dp.message_handler()
 async def echo(message: types.Message):
     await message.answer(message.text)
-
-
-client.register_handlers_client(dp)
-
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
