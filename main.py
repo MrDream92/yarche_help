@@ -36,9 +36,9 @@ async def on_shutdown(dispatcher):
     await bot.delete_webhook()
 
 
-@dp.message_handler()
+"""@dp.message_handler()
 async def echo(message: types.Message):
-    await message.answer(message.text)
+    await message.answer(message.text)"""
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)

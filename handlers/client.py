@@ -20,6 +20,12 @@ async def command_registration_user(message : types.Message):
     await message.delete()
 
 
+async def echo(message: types.Message):
+    await message.answer(message.text)
+
 
 def register_handlers_client(dp:Dispatcher):
     dp.register_message_handler(command_registration_user, commands=['registration'])
+    dp.register_message_handler(echo)
+
+
