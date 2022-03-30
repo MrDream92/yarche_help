@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 from create_bot import bot, dp
 
-button_registration = KeyboardButton("Определить магазин")
+button_registration = KeyboardButton("/Определить магазин")
 button_case_registration = ReplyKeyboardMarkup(resize_keyboard=True).add(button_registration)
 
 
@@ -56,7 +56,7 @@ async def echo(message: types.Message):
 def register_handlers_client(dp:Dispatcher):
     #dp.register_message_handler(start_user, commands=['start'])
     dp.register_message_handler(command_registration_user, commands=['registration'])
-    dp.register_message_handler(start_registration, state=None)
+    dp.register_message_handler(start_registration, commands=['Определить магазин'], state=None)
     dp.register_message_handler(load_mag, state=FSMAdmin.mag)
     dp.register_message_handler(load_last_number, state=FSMAdmin.last_number)
     dp.register_message_handler(echo)
