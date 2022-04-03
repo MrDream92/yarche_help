@@ -46,6 +46,13 @@ async def age_step(message: types.Message, state: FSMContext):
     await state.update_data(fname_user=message.text.title())
     await reg.age.set()
 
+    async with state.proxy() as data:
+        await message.reply(str(data))  # а вот и данные что мы навводили
+
+        # Тут запрос к БД
+
+    await state.finish()
+
 
 async def echo(message: types.Message):
     await message.answer(message.text)
