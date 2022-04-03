@@ -38,8 +38,9 @@ async def set_mag_number(message: types.Message, state: FSMContext):
     else:
         reply_message = "Топ балаболов-\n"
         for item in enumerate(result):
-            list.append(item[1])
             print(item)
+            list.append(item[1].strip())
+
 
     for size in mags:
         keyboard.add(size)
