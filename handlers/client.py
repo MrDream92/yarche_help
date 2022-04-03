@@ -71,6 +71,16 @@ async def set_mag_number(message: types.Message, state: FSMContext):
     await message.answer("Вам доступны следующие магазины:", reply_markup=keyboard)
 
 
+async def final_data_FSM(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['mag_user'] = message.text
+
+    async with state.proxy() as data:
+       await message.reply(str(data))#а вот и данные что мы навводили
+
+    #await sqlite_db.sql_add_command(state)#Запись результата в БД sqllite
+    await state.finish()
+    #await message.reply("Я записал это в базу данных")
 
 
 async def echo(message: types.Message):
@@ -87,7 +97,7 @@ def register_handlers_client(dp:Dispatcher):
 
     dp.register_message_handler(set_user_number, commands="start", state="*")
     dp.register_message_handler(set_mag_number, state=FSM_user.number_user, content_types=types.ContentTypes.TEXT)
-
+    dp.register_message_handler(final_data_FSM, state=FSM_user.mag_user, content_types=types.ContentTypes.TEXT)
 
     dp.register_message_handler(echo)
 
