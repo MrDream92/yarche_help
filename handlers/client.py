@@ -54,8 +54,29 @@ async def age_step(message: types.Message, state: FSMContext):
     await state.finish()
 
 
+#---------
+async def set_user_number(message: types.Message, state: FSMContext):
+    await message.answer(text='Введите  ваш номер телефона в формате 8911111111')
+    await FSM_user.number_user.set()
+
+
+async def set_mag_number(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['number_user'] = int(message.text)
+    await FSM_user.next()
+
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    for size in mags:
+        keyboard.add(size)
+    await message.answer("Вам доступны следующие магазины:", reply_markup=keyboard)
+
+
+
+
 async def echo(message: types.Message):
     await message.answer(message.text)
+
+
 
 
 def register_handlers_client(dp:Dispatcher):
@@ -63,6 +84,10 @@ def register_handlers_client(dp:Dispatcher):
     dp.register_message_handler(name_step, commands="reg", state="*")
     dp.register_message_handler(fname_step, state=reg.name, content_types=types.ContentTypes.TEXT)
     dp.register_message_handler(age_step, state=reg.fname, content_types=types.ContentTypes.TEXT)
+
+    dp.register_message_handler(set_user_number, commands="start", state="*")
+    dp.register_message_handler(set_mag_number, state=FSM_user.number_user, content_types=types.ContentTypes.TEXT)
+
 
     dp.register_message_handler(echo)
 
