@@ -33,7 +33,7 @@ async def set_mag_number(message: types.Message, state: FSMContext):
     db_object.execute('SELECT * FROM users_mag WHERE user_number = %s',(data['number_user']))
     result = db_object.fetchall()
     if not result:
-        message.answer("По данному номеру нет зарегистрированных магазинов... Обратитесь к администратору")
+        await message.answer(text='По данному номеру нет зарегистрированных магазинов... Обратитесь к администратору')
         await state.finish()
     else:
         reply_message = "Топ балаболов-\n"
