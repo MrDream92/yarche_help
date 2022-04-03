@@ -15,46 +15,6 @@ class FSM_user(StatesGroup):#Клас необходим для перехода
     mag_user = State()
 
 
-class reg(StatesGroup):
-    name = State()
-    fname = State()
-    age = State()
-
-
-#@dp.message_handler(commands="reg", state="*")
-async def name_step(message: types.Message, state: FSMContext):
-    await message.answer(text='Напиши имя ')
-    await reg.name.set()
-
-
-#@dp.message_handler(state=reg.name, content_types=types.ContentTypes.TEXT)
-async def fname_step(message: types.Message, state: FSMContext):
-    if any(map(str.isdigit, message.text)):
-        await message.reply("Пожалуйста напишите свое имя")
-        return
-    await state.update_data(name_user=message.text.title())
-    await message.answer(text='Напиши фамилию ')
-    await reg.fname.set()
-
-
-#@dp.message_handler(state=reg.fname, content_types=types.ContentTypes.TEXT)
-async def age_step(message: types.Message, state: FSMContext):
-    if any(map(str.isdigit, message.text)):
-        await message.reply("Пожалуйста напишите свою фамилию")
-        return
-    await message.answer(text='Напиши возраст ')
-    await state.update_data(fname_user=message.text.title())
-    await reg.age.set()
-
-    async with state.proxy() as data:
-        await message.reply(str(data))  # а вот и данные что мы навводили
-
-        # Тут запрос к БД
-
-    await state.finish()
-
-
-#---------
 async def set_user_number(message: types.Message, state: FSMContext):
     await message.answer(text='Введите  ваш номер телефона в формате 8911111111')
     await FSM_user.number_user.set()
