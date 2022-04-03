@@ -2,12 +2,15 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
-from create_bot import bot, dp
+from create_bot import bot, dp, BD_URI
 
-button_registration = KeyboardButton("/Определить магазин")
-button_case_registration = ReplyKeyboardMarkup(resize_keyboard=True).add(button_registration)
+import psycopg2
 
-mags = ["М001", "М002", "М003"]
+db_connection = psycopg2.connect(BD_URI, sslmode='require')
+db_object = db_connection.cursor()
+
+
+mags = list()
 
 
 class FSM_user(StatesGroup):#Клас необходим для перехода между состояниями
@@ -26,6 +29,17 @@ async def set_mag_number(message: types.Message, state: FSMContext):
     await FSM_user.next()
 
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+    db_object.execute('SELECT * FROM users_mag WHERE user_number = %s',(data['number_user']))
+    result = db_object.fetchall()
+    if not result:
+        message.answer("По данному номеру нет зарегистрированных магазинов... Обратитесь к администратору")
+        await state.finish()
+    else:
+        reply_message = "Топ балаболов-\n"
+        for item in enumerate(result):
+            list.append(item[1])
+
     for size in mags:
         keyboard.add(size)
     await message.answer("Вам доступны следующие магазины:", reply_markup=keyboard)

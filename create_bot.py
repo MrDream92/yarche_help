@@ -8,3 +8,5 @@ storage=MemoryStorage()
 TOKEN = os.getenv('BOT_TOKEN')
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot, storage=storage)
+
+BD_URI = os.getenv('DATABASE_URL')
