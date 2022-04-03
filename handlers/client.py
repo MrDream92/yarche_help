@@ -30,7 +30,7 @@ async def set_mag_number(message: types.Message, state: FSMContext):
 
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-    db_object.execute('SELECT * FROM users_mag WHERE user_number = %s',(message.text))
+    db_object.execute('SELECT * FROM users_mag WHERE user_number = {message.text}')
     result = db_object.fetchall()
     if not result:
         await message.answer(text='По данному номеру нет зарегистрированных магазинов... Обратитесь к администратору')
