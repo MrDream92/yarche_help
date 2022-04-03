@@ -62,13 +62,7 @@ async def echo(message: types.Message):
 
 
 
-
 def register_handlers_client(dp:Dispatcher):
-    #dp.register_message_handler(registration_start, commands='start', state="*")
-    dp.register_message_handler(name_step, commands="reg", state="*")
-    dp.register_message_handler(fname_step, state=reg.name, content_types=types.ContentTypes.TEXT)
-    dp.register_message_handler(age_step, state=reg.fname, content_types=types.ContentTypes.TEXT)
-
     dp.register_message_handler(set_user_number, commands="start", state="*")
     dp.register_message_handler(set_mag_number, state=FSM_user.number_user, content_types=types.ContentTypes.TEXT)
     dp.register_message_handler(final_data_FSM, state=FSM_user.mag_user, content_types=types.ContentTypes.TEXT)
