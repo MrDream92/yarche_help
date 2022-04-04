@@ -38,7 +38,7 @@ async def set_mag_number(message: types.Message, state: FSMContext):
     else:
         for item in enumerate(result):
 
-            list.append(item[1][1])
+            mags.append(item[1][1])
 
 
     for size in mags:
