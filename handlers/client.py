@@ -48,8 +48,8 @@ async def final_data_FSM(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['mag_user'] = message.text
 
-    async with state.proxy() as data:
-       await message.reply(str(data))#а вот и данные что мы навводили
+    #async with state.proxy() as data:
+    #   await message.reply(str(data))#а вот и данные что мы навводили
 
     async with state.proxy() as data:
         #    cur.execute('INSERT INTO menu VALUES(?,?,?,?)', tuple(data.values()))
@@ -61,7 +61,8 @@ async def final_data_FSM(message: types.Message, state: FSMContext):
 
         query = "Update users set user_id = %s where user_number = %s and mag_number = %s"
         db_object.execute(query, (message.from_user.id, data['number_user'],data['mag_user']))
-        db_object.commit()
+        db_connection.commit()
+
         await message.reply(f"Магазин {data['mag_user']} зарегистрирован за вами!")
 
     await state.finish()
