@@ -50,20 +50,10 @@ async def final_data_FSM(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['mag_user'] = message.text
 
-    #async with state.proxy() as data:
-    #   await message.reply(str(data))#а вот и данные что мы навводили
-
-    #Запись в БД
-
     async with state.proxy() as data:
-    #    cur.execute('INSERT INTO menu VALUES(?,?,?,?)', tuple(data.values()))
-    #   base.commit()
-        #await message.reply(tuple(data.values()))
-        print(message.from_user.id)
-        print(data['number_user'])
-        print(data['mag_user'])
+       await message.reply(str(data))#а вот и данные что мы навводили
 
-
+    #await sqlite_db.sql_add_command(state)#Запись результата в БД sqllite
     await state.finish()
     #await message.reply("Я записал это в базу данных")
 
