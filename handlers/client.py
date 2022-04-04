@@ -55,14 +55,14 @@ async def final_data_FSM(message: types.Message, state: FSMContext):
 
     #Запись в БД
 
-        async with state.proxy() as data:
-        #    cur.execute('INSERT INTO menu VALUES(?,?,?,?)', tuple(data.values()))
-        #   base.commit()
-            #await message.reply(tuple(data.values()))
-            print(message.from_user.id)
-            print(data['number_user'])
-            print(data['mag_user'])
-        print("Произведена запись в базу данных")
+    async with state.proxy() as data:
+    #    cur.execute('INSERT INTO menu VALUES(?,?,?,?)', tuple(data.values()))
+    #   base.commit()
+        #await message.reply(tuple(data.values()))
+        print(message.from_user.id)
+        print(data['number_user'])
+        print(data['mag_user'])
+
 
     await state.finish()
     #await message.reply("Я записал это в базу данных")
