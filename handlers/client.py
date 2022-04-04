@@ -42,7 +42,7 @@ async def set_mag_number(message: types.Message, state: FSMContext):
     else:
         for item in enumerate(result):
 
-            mags.append(item[1][1])
+            mags.append(item[1][3])
 
     for size in mags:
         keyboard.add(size)
