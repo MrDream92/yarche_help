@@ -59,7 +59,7 @@ async def final_data_FSM(message: types.Message, state: FSMContext):
         #print(data['number_user'])
         #print(data['mag_user'])
 
-        query = "Update users set user_id = %s where user_number = %s and mag_number = = %s"
+        query = "Update users set user_id = %s where user_number = %s and mag_number = %s"
         db_object.execute(query, (message.from_user.id, data['number_user'],data['mag_user']))
         db_object.commit()
         await message.reply(f"Магазин {data['mag_user']} зарегистрирован за вами!")
