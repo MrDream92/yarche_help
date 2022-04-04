@@ -33,7 +33,8 @@ async def set_mag_number(message: types.Message, state: FSMContext):
     print(type(message.text))
     print(message.text)
     #db_object.execute(f'SELECT * FROM users WHERE user_number = {str(message.text)}')
-    db_object.execute('SELECT * FROM users WHERE user_number = ?', (str(message.text),))
+    #db_object.execute('SELECT * FROM users WHERE user_number = ?', (str(message.text),))
+    db_object.execute('SELECT * FROM users WHERE user_number = "89231444062"')
     result = db_object.fetchall()
     if not result:
         await message.answer(text='По данному номеру нет зарегистрированных магазинов... Обратитесь к администратору')
