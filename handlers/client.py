@@ -25,12 +25,14 @@ async def set_user_number(message: types.Message, state: FSMContext):
 
 async def set_mag_number(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['number_user'] = int(message.text)
+        data['number_user'] = message.text
     await FSM_user.next()
 
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
-    db_object.execute(f'SELECT * FROM users WHERE user_number = {str(message.text)}')
+    print(type(message.text))
+    print(message.text)
+    db_object.execute(f'SELECT * FROM users WHERE user_number = {message.text}')
     result = db_object.fetchall()
     if not result:
         await message.answer(text='По данному номеру нет зарегистрированных магазинов... Обратитесь к администратору')
