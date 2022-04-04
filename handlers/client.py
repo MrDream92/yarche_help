@@ -29,9 +29,6 @@ async def set_mag_number(message: types.Message, state: FSMContext):
     await FSM_user.next()
 
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    #db_object.execute(f'SELECT * FROM users WHERE user_number = {str(message.text)}')
-    #db_object.execute('SELECT * FROM users WHERE user_number = ?', (str(message.text),))
-
     db_object.execute('SELECT * FROM users WHERE user_number = %s', (str(message.text),))
     result = db_object.fetchall()
     if not result:
@@ -54,7 +51,14 @@ async def final_data_FSM(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
        await message.reply(str(data))#а вот и данные что мы навводили
 
-    #await sqlite_db.sql_add_command(state)#Запись результата в БД sqllite
+    async with state.proxy() as data:
+        #    cur.execute('INSERT INTO menu VALUES(?,?,?,?)', tuple(data.values()))
+        #   base.commit()
+            #await message.reply(tuple(data.values()))
+        print(message.from_user.id)
+        print(data['number_user'])
+        print(data['mag_user'])
+
     await state.finish()
     #await message.reply("Я записал это в базу данных")
 
