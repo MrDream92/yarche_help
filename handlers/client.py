@@ -36,10 +36,9 @@ async def set_mag_number(message: types.Message, state: FSMContext):
         await message.answer(text='По данному номеру нет зарегистрированных магазинов... Обратитесь к администратору')
         await state.finish()
     else:
-        reply_message = "Топ балаболов-\n"
         for item in enumerate(result):
-            print(item)
-            list.append(item[1].strip())
+
+            list.append(item[1][1])
 
 
     for size in mags:
