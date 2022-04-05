@@ -2,8 +2,8 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
-from create_bot import bot, dp, BD_URI, emoji
-
+from create_bot import bot, dp, BD_URI
+import emoji
 
 import psycopg2
 
@@ -22,7 +22,7 @@ async def start_work(message: types.Message):
     button_1 = types.KeyboardButton(text="Регистрация")
     keyboard_start.add(button_1)
 
-    text = "Добрый день! " + emoji.emojize(':wave:') + " Вас приветствует Бот Ярче Коммуникации, для начала работы необходимо пройти регистрацию"
+    text = "Добрый день! " + emoji.emojize(":wave:") + " Вас приветствует Бот Ярче Коммуникации, для начала работы необходимо пройти регистрацию"
     await message.answer(text, reply_markup=keyboard_start)
 
 
