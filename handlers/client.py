@@ -2,7 +2,8 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
-from create_bot import bot, dp, BD_URI
+from create_bot import bot, dp, BD_URI, emoji
+
 
 import psycopg2
 
@@ -18,11 +19,15 @@ class FSM_user(StatesGroup):#Клас необходим для перехода
 
 async def start_work(message: types.Message):
     keyboard_start = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    button_1 = types.KeyboardButton(text="Регистрация")
+    button_1 = types.KeyboardButton(text="Регистрация",callback_data='comm_reg')
     keyboard_start.add(button_1)
 
-    await message.answer("Добрый день! Вас приветствует Бот Ярче Коммуникации, для начала работы необходимо пройти регистрацию", reply_markup=keyboard_start)
+    await message.answer(f"Добрый день!{emoji.emojize(emoji.emojize(':wave:'))} Вас приветствует Бот Ярче Коммуникации, для начала работы необходимо пройти регистрацию", reply_markup=keyboard_start)
 
+
+async def start_registration(callback : types.CallbackQuery):
+    await callback.message.answer("Нажата инлайн кнопка!")#Ответит текстом
+    await callback.answer("все выполнено", show_alert=True)#Чтобы убрать часики и зафиксировать выполнение процесса инлайн кнопки, show_alert=True - вылезет сообщение с подтверждением
 
 
 async def set_user_number(message: types.Message, state: FSMContext):
@@ -79,6 +84,7 @@ async def echo(message: types.Message):
 
 def register_handlers_client(dp:Dispatcher):
     dp.register_message_handler(start_work, commands="start")
+    dp.register_callback_query_handler(start_registration, text='Регистрация')
     dp.register_message_handler(set_user_number, commands="reg", state="*")
     dp.register_message_handler(set_mag_number, state=FSM_user.number_user, content_types=types.ContentTypes.TEXT)
     dp.register_message_handler(final_data_FSM, state=FSM_user.mag_user, content_types=types.ContentTypes.TEXT)
