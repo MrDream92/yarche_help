@@ -59,7 +59,7 @@ async def final_data_FSM(message: types.Message, state: FSMContext):
         db_object.execute(query, (message.from_user.id, data['number_user'],data['mag_user']))
         db_connection.commit()
 
-        await message.reply(f"Магазин {data['mag_user']} зарегистрирован за вами!")
+        await message.reply(f"Магазин {data['mag_user']} зарегистрирован за вами!", reply_markup=types.ReplyKeyboardRemove())
 
     await state.finish()
 
