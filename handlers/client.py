@@ -28,7 +28,7 @@ async def set_user_number(message: types.Message, state: FSMContext):
         await FSM_user.number_user.set()
     else:
         #await message.answer(f'К вам уже привязан магазин %s',(result[3]))
-        await message.answer(type(result))
+        await message.answer(result[3])
 
 async def set_mag_number(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
