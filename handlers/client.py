@@ -22,7 +22,8 @@ async def start_work(message: types.Message):
     button_1 = types.KeyboardButton(text="Регистрация",callback_data='comm_reg')
     keyboard_start.add(button_1)
 
-    await message.answer(f"Добрый день!{emoji.emojize(emoji.emojize(':wave:'))} Вас приветствует Бот Ярче Коммуникации, для начала работы необходимо пройти регистрацию", reply_markup=keyboard_start)
+    text = "Добрый день! " + emoji.emojize(':wave:') + " Вас приветствует Бот Ярче Коммуникации, для начала работы необходимо пройти регистрацию"
+    await message.answer(text, reply_markup=keyboard_start)
 
 
 async def start_registration(callback : types.CallbackQuery):
@@ -73,7 +74,7 @@ async def final_data_FSM(message: types.Message, state: FSMContext):
         db_object.execute(query, (message.from_user.id, data['number_user'],data['mag_user']))
         db_connection.commit()
 
-        await message.reply(f"Магазин {data['mag_user']} зарегистрирован за вами!", reply_markup=types.ReplyKeyboardRemove())#reply_markup=types.ReplyKeyboardRemove() - Убирает клавиатуру после выбора
+        await message.reply("Магазин {data['mag_user']} зарегистрирован за вами!", reply_markup=types.ReplyKeyboardRemove())#reply_markup=types.ReplyKeyboardRemove() - Убирает клавиатуру после выбора
 
     await state.finish()
 
