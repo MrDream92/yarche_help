@@ -21,14 +21,14 @@ async def set_user_number(message: types.Message, state: FSMContext):
     db_object.execute('SELECT * FROM users WHERE user_id = %s', (str(message.from_user.id),))
     result = db_object.fetchone()
 
-    print(result)
+
 
     if not result:
         await message.answer(text='Введите  ваш номер телефона в формате 8911111111')
         await FSM_user.number_user.set()
     else:
-        #await message.answer(f'К вам уже привязан магазин %s',(result))
-        await message.answer(result)
+        await message.answer(f'К вам уже привязан магазин %s',(result[3]))
+
 
 async def set_mag_number(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
