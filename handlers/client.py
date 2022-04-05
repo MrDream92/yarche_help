@@ -19,14 +19,16 @@ class FSM_user(StatesGroup):#Клас необходим для перехода
 
 async def start_work(message: types.Message):
     keyboard_start = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    button_1 = types.KeyboardButton(text="Регистрация",callback_data='comm_reg')
+    button_1 = types.KeyboardButton(text="Регистрация")
     keyboard_start.add(button_1)
 
     text = "Добрый день! " + emoji.emojize(':wave:') + " Вас приветствует Бот Ярче Коммуникации, для начала работы необходимо пройти регистрацию"
     await message.answer(text, reply_markup=keyboard_start)
-    if message.text == "Регистрация":
-         print("Попал куда нужно")
 
+
+
+async def start_registration(message: types.Message):
+    await message.answer("Попал куда нужно")
 
 
 async def set_user_number(message: types.Message, state: FSMContext):
@@ -83,6 +85,7 @@ async def echo(message: types.Message):
 
 def register_handlers_client(dp:Dispatcher):
     dp.register_message_handler(start_work, commands="start")
+    dp.register_message_handler(start_registration, lambda message: message.text == "Регистрация")
     dp.register_message_handler(set_user_number, commands="reg", state="*")
     dp.register_message_handler(set_mag_number, state=FSM_user.number_user, content_types=types.ContentTypes.TEXT)
     dp.register_message_handler(final_data_FSM, state=FSM_user.mag_user, content_types=types.ContentTypes.TEXT)
