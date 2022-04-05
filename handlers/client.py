@@ -17,9 +17,18 @@ class FSM_user(StatesGroup):#Клас необходим для перехода
 
 
 async def set_user_number(message: types.Message, state: FSMContext):
-    await message.answer(text='Введите  ваш номер телефона в формате 8911111111')
-    await FSM_user.number_user.set()
+    #Необходимо проверить есть ли уже завязанный магазин на пользователе
+    db_object.execute('SELECT * FROM users WHERE user_is = %s', (message.from_user.id,))
+    result = db_object.fetchone()
 
+    print(result)
+
+    if not result:
+        await message.answer(text='Введите  ваш номер телефона в формате 8911111111')
+        await FSM_user.number_user.set()
+    else:
+        #await message.answer(f'К вам уже привязан магазин %s',(result))
+        await message.answer(result)
 
 async def set_mag_number(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
