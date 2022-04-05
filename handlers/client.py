@@ -24,11 +24,9 @@ async def start_work(message: types.Message):
 
     text = "Добрый день! " + emoji.emojize(':wave:') + " Вас приветствует Бот Ярче Коммуникации, для начала работы необходимо пройти регистрацию"
     await message.answer(text, reply_markup=keyboard_start)
+    if message.text == "Регистрация":
+         print("Попал куда нужно")
 
-
-async def start_registration(callback : types.CallbackQuery):
-    await callback.message.answer("Нажата инлайн кнопка!")#Ответит текстом
-    await callback.answer("все выполнено", show_alert=True)#Чтобы убрать часики и зафиксировать выполнение процесса инлайн кнопки, show_alert=True - вылезет сообщение с подтверждением
 
 
 async def set_user_number(message: types.Message, state: FSMContext):
@@ -85,7 +83,6 @@ async def echo(message: types.Message):
 
 def register_handlers_client(dp:Dispatcher):
     dp.register_message_handler(start_work, commands="start")
-    dp.register_callback_query_handler(start_registration, text='Регистрация')
     dp.register_message_handler(set_user_number, commands="reg", state="*")
     dp.register_message_handler(set_mag_number, state=FSM_user.number_user, content_types=types.ContentTypes.TEXT)
     dp.register_message_handler(final_data_FSM, state=FSM_user.mag_user, content_types=types.ContentTypes.TEXT)
