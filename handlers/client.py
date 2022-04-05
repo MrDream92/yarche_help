@@ -16,6 +16,15 @@ class FSM_user(StatesGroup):#Клас необходим для перехода
     mag_user = State()
 
 
+async def start_work(message: types.Message):
+    keyboard_start = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    button_1 = types.KeyboardButton(text="Регистрация")
+    keyboard_start.add(button_1)
+
+    await message.answer("Добрый день! Вас приветствует Бот Ярче Коммуникации, для начала работы необходимо пройти регистрацию", reply_markup=keyboard_start)
+
+
+
 async def set_user_number(message: types.Message, state: FSMContext):
     #Необходимо проверить есть ли уже завязанный магазин на пользователе
     db_object.execute('SELECT * FROM users WHERE user_id = %s', (str(message.from_user.id),))
@@ -59,7 +68,7 @@ async def final_data_FSM(message: types.Message, state: FSMContext):
         db_object.execute(query, (message.from_user.id, data['number_user'],data['mag_user']))
         db_connection.commit()
 
-        await message.reply(f"Магазин {data['mag_user']} зарегистрирован за вами!", reply_markup=types.ReplyKeyboardRemove())
+        await message.reply(f"Магазин {data['mag_user']} зарегистрирован за вами!", reply_markup=types.ReplyKeyboardRemove())#reply_markup=types.ReplyKeyboardRemove() - Убирает клавиатуру после выбора
 
     await state.finish()
 
@@ -69,6 +78,7 @@ async def echo(message: types.Message):
 
 
 def register_handlers_client(dp:Dispatcher):
+    dp.register_message_handler(start_work, commands="start")
     dp.register_message_handler(set_user_number, commands="reg", state="*")
     dp.register_message_handler(set_mag_number, state=FSM_user.number_user, content_types=types.ContentTypes.TEXT)
     dp.register_message_handler(final_data_FSM, state=FSM_user.mag_user, content_types=types.ContentTypes.TEXT)
