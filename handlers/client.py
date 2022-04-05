@@ -18,7 +18,7 @@ class FSM_user(StatesGroup):#Клас необходим для перехода
 
 async def set_user_number(message: types.Message, state: FSMContext):
     #Необходимо проверить есть ли уже завязанный магазин на пользователе
-    db_object.execute('SELECT * FROM users WHERE user_is = %s', (message.from_user.id,))
+    db_object.execute('SELECT * FROM users WHERE user_id = %s', (message.from_user.id,))
     result = db_object.fetchone()
 
     print(result)
