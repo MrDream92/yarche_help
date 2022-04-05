@@ -10,8 +10,6 @@ db_connection = psycopg2.connect(BD_URI, sslmode='require')
 db_object = db_connection.cursor()
 
 
-mags = list()
-
 
 class FSM_user(StatesGroup):#Клас необходим для перехода между состояниями
     number_user = State()
@@ -28,6 +26,8 @@ async def set_mag_number(message: types.Message, state: FSMContext):
         data['number_user'] = message.text
     await FSM_user.next()
 
+    mags = list()
+
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     db_object.execute('SELECT * FROM users WHERE user_number = %s', (str(message.text),))
     result = db_object.fetchall()
@@ -35,6 +35,7 @@ async def set_mag_number(message: types.Message, state: FSMContext):
         await message.answer(text='По данному номеру нет зарегистрированных магазинов... Обратитесь к администратору')
         await state.finish()
     else:
+
         for item in enumerate(result):
 
             mags.append(item[1][3])
