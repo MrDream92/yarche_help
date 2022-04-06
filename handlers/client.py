@@ -31,9 +31,10 @@ async def start_work(message: types.Message):
 
 
 
-async def start_registration(callback_query: types.CallbackQuery):
-    await bot.answer_callback_query(callback_query.id)
-    await bot.send_message(callback_query.from_user.id, 'Нажата первая кнопка!')
+async def start_registration(callback: types.CallbackQuery):
+    print(callback.data)
+    await callback.answer("Я тут")
+
 
 
 async def set_user_number(message: types.Message, state: FSMContext):
@@ -90,7 +91,7 @@ async def echo(message: types.Message):
 
 def register_handlers_client(dp:Dispatcher):
     dp.register_message_handler(start_work, commands="start")
-    dp.register_callback_query_handler(start_registration, func=lambda c: c.data == 'button1')
+    dp.register_callback_query_handler(start_registration, text='registration')
     dp.register_message_handler(set_user_number, commands="reg", state="*")
     dp.register_message_handler(set_mag_number, state=FSM_user.number_user, content_types=types.ContentTypes.TEXT)
     dp.register_message_handler(final_data_FSM, state=FSM_user.mag_user, content_types=types.ContentTypes.TEXT)
