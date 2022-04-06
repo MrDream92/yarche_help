@@ -22,12 +22,12 @@ async def start_work(message: types.Message):
     #button_1 = types.KeyboardButton(text="Регистрация")
     #keyboard_start.add(button_1)
 
-    inline_btn_1 = InlineKeyboardButton('Первая кнопка!', callback_data='registration')
-    inline_kb1 = InlineKeyboardMarkup().add(inline_btn_1)
+
+    inkb = InlineKeyboardMarkup(row_width=1).add(InlineKeyboardButton(text="Регистрация шмалистрация", callback_data='registration'))
 
     #text = "Добрый день! " + emoji.emojize(":wave:") + " Вас приветствует Бот Ярче Коммуникации, для начала работы необходимо пройти регистрацию"
     text = "Вас приветствует Бот Ярче Коммуникации 👋, для начала работы необходимо пройти регистрацию"
-    await message.answer(text, reply_markup=inline_btn_1)
+    await message.answer(text, reply_markup=inkb)
 
 
 
