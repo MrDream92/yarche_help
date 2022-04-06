@@ -24,14 +24,9 @@ async def start_work(message: types.Message):
     await message.answer(text, reply_markup=inkb)
 
 
-
-#async def start_registration(callback: types.CallbackQuery):
-
-
-
 async def set_user_number(callback: types.CallbackQuery, state: FSMContext):
     #Необходимо проверить есть ли уже завязанный магазин на пользователе
-    db_object.execute('SELECT * FROM users WHERE user_id = %s', (str(message.from_user.id),))
+    db_object.execute('SELECT * FROM users WHERE user_id = %s', (str(callback.from_user.id),))
     result = db_object.fetchone()
     if not result:
         await callback.answer(text='Введите  ваш номер телефона в формате 8911111111')
