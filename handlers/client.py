@@ -35,24 +35,24 @@ async def set_user_number(callback: types.CallbackQuery, state: FSMContext):
         await callback.message.answer(f'К вам уже привязан магазин {result[3]}, обратитесь к администратору для смены')
 
 
-async def set_mag_number(callback: types.CallbackQuery, state: FSMContext):
+async def set_mag_number(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['number_user'] = callback.text
+        data['number_user'] = message.text
     await FSM_user.next()
 
     mags = list()
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    db_object.execute('SELECT * FROM users WHERE user_number = %s ORDER BY mag_name DESC', (str(callback.text),))
+    db_object.execute('SELECT * FROM users WHERE user_number = %s ORDER BY mag_name DESC', (str(message.text),))
     result = db_object.fetchall()
     if not result:
-        await callback.message.answer(text='По данному номеру нет зарегистрированных магазинов... Обратитесь к администратору')
+        await message.answer(text='По данному номеру нет зарегистрированных магазинов... Обратитесь к администратору')
         await state.finish()
     else:
         for item in enumerate(result):
             mags.append(item[1][3])
     for size in mags:
         keyboard.add(size)#Добавляем кнопки из результата запроса
-    await callback.message.answer("Вам доступны следующие магазины:", reply_markup=keyboard)
+    await message.answer("Вам доступны следующие магазины:", reply_markup=keyboard)
 
 
 async def final_data_FSM(message: types.Message, state: FSMContext):
@@ -81,7 +81,7 @@ def register_handlers_client(dp:Dispatcher):
     #dp.register_callback_query_handler(start_registration, text='registration')
     #dp.register_message_handler(set_user_number, commands="reg", state="*")
     dp.register_callback_query_handler(set_user_number, text='registration', state="*")
-    dp.register_callback_query_handler(set_mag_number, state=FSM_user.number_user, content_types=types.ContentTypes.TEXT)
+    dp.register_message_handler(set_mag_number, state=FSM_user.number_user, content_types=types.ContentTypes.TEXT)
     dp.register_message_handler(final_data_FSM, state=FSM_user.mag_user, content_types=types.ContentTypes.TEXT)
 
     dp.register_message_handler(echo)
