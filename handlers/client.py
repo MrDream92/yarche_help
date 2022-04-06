@@ -1,7 +1,7 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove, InlineKeyboardButton, InlineKeyboardMarkup
 from create_bot import bot, dp, BD_URI
 import emoji
 
@@ -18,18 +18,22 @@ class FSM_user(StatesGroup):#Клас необходим для перехода
 
 
 async def start_work(message: types.Message):
-    keyboard_start = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    button_1 = types.KeyboardButton(text="Регистрация")
-    keyboard_start.add(button_1)
+    #keyboard_start = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    #button_1 = types.KeyboardButton(text="Регистрация")
+    #keyboard_start.add(button_1)
+
+    inline_btn_1 = InlineKeyboardButton('Первая кнопка!', callback_data='registration')
+    inline_kb1 = InlineKeyboardMarkup().add(inline_btn_1)
 
     #text = "Добрый день! " + emoji.emojize(":wave:") + " Вас приветствует Бот Ярче Коммуникации, для начала работы необходимо пройти регистрацию"
     text = "Вас приветствует Бот Ярче Коммуникации 👋, для начала работы необходимо пройти регистрацию"
-    await message.answer(text, reply_markup=keyboard_start)
+    await message.answer(text, reply_markup=inline_btn_1)
 
 
 
-async def start_registration(message: types.Message):
-    await message.answer("Попал куда нужно",)
+async def start_registration(callback_query: types.CallbackQuery):
+    await bot.answer_callback_query(callback_query.id)
+    await bot.send_message(callback_query.from_user.id, 'Нажата первая кнопка!')
 
 
 async def set_user_number(message: types.Message, state: FSMContext):
@@ -86,7 +90,7 @@ async def echo(message: types.Message):
 
 def register_handlers_client(dp:Dispatcher):
     dp.register_message_handler(start_work, commands="start")
-    dp.register_message_handler(start_registration, lambda message: message.text == "Регистрация")
+    dp.register_callback_query_handler(start_registration, func=lambda c: c.data == 'button1')
     dp.register_message_handler(set_user_number, commands="reg", state="*")
     dp.register_message_handler(set_mag_number, state=FSM_user.number_user, content_types=types.ContentTypes.TEXT)
     dp.register_message_handler(final_data_FSM, state=FSM_user.mag_user, content_types=types.ContentTypes.TEXT)
