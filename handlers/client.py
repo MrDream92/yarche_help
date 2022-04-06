@@ -41,7 +41,7 @@ async def set_mag_number(message: types.Message, state: FSMContext):
     await FSM_user.next()
 
     mags = list()
-    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    #keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     db_object.execute('SELECT * FROM users WHERE user_number = %s ORDER BY mag_name DESC', (str(message.text),))
     result = db_object.fetchall()
     if not result:
@@ -50,10 +50,15 @@ async def set_mag_number(message: types.Message, state: FSMContext):
     else:
         for item in enumerate(result):
             mags.append(item[1][3])
-    for size in mags:
-        keyboard.add(size)#Добавляем кнопки из результата запроса
+
+    keyboard = types.InlineKeyboardMarkup()
+    backbutton = types.InlineKeyboardButton(text="Back", callback_data="MagList")
+    button_list = [types.InlineKeyboardButton(text=x, callback_data=x) for x in mags]
+    keyboard.add(*button_list, backbutton)
+
+    #for size in mags:
+    #    keyboard.add(size)#Добавляем кнопки из результата запроса
     await message.answer("Вам доступны следующие магазины:", reply_markup=keyboard)
-    await message.answer(mags)
 
 
 async def final_data_FSM(message: types.Message, state: FSMContext):
