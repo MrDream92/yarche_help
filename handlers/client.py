@@ -29,10 +29,10 @@ async def set_user_number(callback: types.CallbackQuery, state: FSMContext):
     db_object.execute('SELECT * FROM users WHERE user_id = %s', (str(callback.from_user.id),))
     result = db_object.fetchone()
     if not result:
-        await callback.answer(text='Введите  ваш номер телефона в формате 8911111111')
+        await callback.message.answer(text='Введите  ваш номер телефона в формате 8911111111')
         await FSM_user.number_user.set()
     else:
-        await callback.answer(f'К вам уже привязан магазин {result[3]}, обратитесь к администратору для смены')
+        await callback.message.answer(f'К вам уже привязан магазин {result[3]}, обратитесь к администратору для смены')
 
 
 async def set_mag_number(message: types.Message, state: FSMContext):
