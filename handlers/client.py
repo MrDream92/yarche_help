@@ -51,12 +51,11 @@ async def set_mag_number(message: types.Message, state: FSMContext):
         for item in enumerate(result):
             mags.append(item[1][3])
 
-    await message.answer(result)
 
     keyboard = types.InlineKeyboardMarkup()
     backbutton = types.InlineKeyboardButton(text="", callback_data="MagList")
     button_list = [types.InlineKeyboardButton(text=x, callback_data=x) for x in mags]
-    keyboard.add(*button_list, backbutton)
+    keyboard.add(*button_list)
 
     #for size in mags:
     #    keyboard.add(size)#Добавляем кнопки из результата запроса
