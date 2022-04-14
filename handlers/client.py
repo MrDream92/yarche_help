@@ -51,8 +51,10 @@ async def set_mag_number(message: types.Message, state: FSMContext):
         for item in enumerate(result):
             mags.append(item[1][3])
 
+    await message.answer(result)
+
     keyboard = types.InlineKeyboardMarkup()
-    backbutton = types.InlineKeyboardButton(text="Back", callback_data="MagList")
+    backbutton = types.InlineKeyboardButton(text="", callback_data="MagList")
     button_list = [types.InlineKeyboardButton(text=x, callback_data=x) for x in mags]
     keyboard.add(*button_list, backbutton)
 
@@ -88,6 +90,7 @@ def register_handlers_client(dp:Dispatcher):
     #dp.register_message_handler(set_user_number, commands="reg", state="*")
     dp.register_callback_query_handler(set_user_number, text='registration', state="*")
     dp.register_message_handler(set_mag_number, state=FSM_user.number_user, content_types=types.ContentTypes.TEXT)
+    #dp.register_message_handler(final_data_FSM, state=FSM_user.mag_user, content_types=types.ContentTypes.TEXT)
     dp.register_message_handler(final_data_FSM, state=FSM_user.mag_user, content_types=types.ContentTypes.TEXT)
 
     dp.register_message_handler(echo)
